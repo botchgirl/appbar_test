@@ -22,7 +22,6 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    Size? contentSize;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBox =

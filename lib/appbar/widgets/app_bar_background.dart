@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:appbar_test/appbar/app_bar_scope.dart';
 import 'package:appbar_test/appbar/providers/scroll_info_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AppBarBackground extends StatelessWidget {
   const AppBarBackground({
@@ -16,16 +15,6 @@ class AppBarBackground extends StatelessWidget {
     final maxHeight =
         (currentSize.height == 0 ? 67 : currentSize.height + 67 + 16) +
             MediaQuery.paddingOf(context).top;
-
-    // final scrollInfo = ScrollInfoProvider.of(context)?.scrollInfo;
-
-    // double scale = 0;
-
-    // if (scrollInfo != null && scrollInfo.metrics.axis == Axis.vertical) {
-    //   if (scrollInfo.metrics.outOfRange && scrollInfo.metrics.pixels < 0.0) {
-    //     scale = 1 + ((scrollInfo.metrics.pixels / maxHeight).abs());
-    //   }
-    // }
 
     return SliverPersistentHeader(
       pinned: true,
@@ -85,6 +74,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           children: [
             ClipPath(
               clipper: BackgroundClipper(
+                isExpanding: scale > 1 ? true : false,
+                shape: RoundedRectangleBorder(),
                 clipHeight: maxHeight * max(1, scale),
               ),
               child: SizedBox(
@@ -116,22 +107,55 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
 class BackgroundClipper extends CustomClipper<Path> {
   final double clipHeight;
+  final bool isExpanding;
 
-  final double radius = 12;
+  static const double radius = 12;
 
   BackgroundClipper({
+    required this.shape,
+    required this.isExpanding,
     required this.clipHeight,
   });
 
+  final ShapeBorder shape;
+
   @override
-  Path getClip(Size size) => Path()
-    ..lineTo(0, 0)
-    ..lineTo(size.width, 0)
-    ..lineTo(size.width, clipHeight - radius)
-    ..quadraticBezierTo(size.width, clipHeight, size.width - radius, clipHeight)
-    ..lineTo(0 + radius, clipHeight)
-    ..quadraticBezierTo(0, clipHeight, 0, clipHeight - radius)
-    ..lineTo(0, 0);
+  Path getClip(Size size) {
+    if (isExpanding) {
+      return Path()
+        ..lineTo(0, 0)
+        ..lineTo(size.width, 0)
+        ..lineTo(size.width, clipHeight - radius)
+        ..lineTo(0, clipHeight - radius)
+        ..lineTo(0, 0)
+        ..addRRect(
+          RRect.fromRectAndCorners(
+            Rect.fromLTWH(
+              0,
+              0,
+              size.width,
+              clipHeight,
+            ),
+            bottomLeft: const Radius.circular(radius),
+            bottomRight: const Radius.circular(radius),
+          ),
+        );
+    } else {
+      return Path()
+        ..addRRect(
+          RRect.fromRectAndCorners(
+            Rect.fromLTWH(
+              0,
+              0,
+              size.width,
+              size.height,
+            ),
+            bottomLeft: const Radius.circular(radius),
+            bottomRight: const Radius.circular(radius),
+          ),
+        );
+    }
+  }
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
@@ -153,11 +177,12 @@ class BackgroundPaint extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const LinearGradient bgGradient = LinearGradient(
       colors: [
-        Colors.green,
-        Colors.red,
+        Colors.lightGreen,
+        Colors.blueGrey,
         Colors.blue,
+        Colors.amber,
       ],
-      stops: [0, 0.4, 0.7],
+      stops: [0, 0.4, 0.6, 0.8],
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
     );
