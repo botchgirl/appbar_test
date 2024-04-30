@@ -211,6 +211,11 @@ class MediaViewerCoreState extends State<MediaViewerCore>
 
       return;
     }
+
+    final test = clampPosition(
+      position: _position,
+    );
+
     // get magnitude from gesture velocity
     final double magnitude = details.velocity.pixelsPerSecond.distance;
 
@@ -290,7 +295,39 @@ class MediaViewerCoreState extends State<MediaViewerCore>
   //   );
   // }
 
+  //  Try to check is horizontal or vertical drag
+  //  void _onScaleUpdate(ScaleUpdateDetails details) {
+  //   if (initialFocalPoint == null) return;
+    
+  //   Offset delta = details.focalPoint - initialFocalPoint!;
+  //   initialFocalPoint = details.focalPoint;
 
+  //   if (isHorizontal == null) {
+  //     // Определяем направление после первого значимого движения
+  //     if (delta.distance > 10) { // Порог чувствительности
+  //       isHorizontal = delta.dx.abs() > delta.dy.abs();
+  //     }
+  //   }
+
+  //   if (isHorizontal == true) {
+  //     // Обрабатываем горизонтальное перетаскивание
+  //     setState(() {
+  //       offset = Offset(offset.dx + delta.dx, offset.dy);
+  //     });
+  //   } else if (isHorizontal == false) {
+  //     // Обрабатываем вертикальное перетаскивание
+  //     setState(() {
+  //       offset = Offset(offset.dx, offset.dy + delta.dy);
+  //     });
+  //   }
+
+  //   // Обрабатываем масштабирование
+  //   if (details.scale != 1.0) {
+  //     setState(() {
+  //       scale = initialScale * details.scale;
+  //     });
+  //   }
+  // }
 
   void onDoubleTap() {
     nextScaleState();
