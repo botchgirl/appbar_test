@@ -1,5 +1,6 @@
 import 'package:appbar_test/appbar/app_bar_scope.dart';
 import 'package:appbar_test/home_screen.dart';
+import 'package:appbar_test/image_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: AppBarScope(
-        child: HomeScreen(),
+        child: ImageScreen(),
       ),
     );
   }
