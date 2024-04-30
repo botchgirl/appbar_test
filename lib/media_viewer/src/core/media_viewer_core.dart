@@ -266,6 +266,19 @@ class MediaViewerCoreState extends State<MediaViewerCore>
     shiftOffset = Offset(0, 0);
   }
 
+  // onVerticalDragUpdate: (details) => dragController.dragged(
+  //                     details.delta.dy,
+  //                     context.size!.height,
+  //                   ),
+  // onVerticalDragEnd: (details) {
+  //   // if (value.deltaY < 0.75) {
+  //   //   context.pop();
+  //   // } else {
+  //   //   dragController.reset();
+  //   // }
+  // },
+
+
   void onDoubleTap() {
     nextScaleState();
   }
