@@ -278,6 +278,19 @@ class MediaViewerCoreState extends State<MediaViewerCore>
   //   // }
   // },
 
+  // void dragged(double shift, double height) {
+  //   final double deltaY = 1 - (value.shift.abs() / height);
+  //   _setState(
+  //     DragState(
+  //       shift: shift + value.shift,
+  //       animationDuration: Duration.zero,
+  //       opacity: deltaY < 0.3 ? 0.3 : deltaY,
+  //       deltaY: deltaY,
+  //     ),
+  //   );
+  // }
+
+
 
   void onDoubleTap() {
     nextScaleState();
